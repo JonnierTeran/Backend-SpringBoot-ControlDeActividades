@@ -2,14 +2,13 @@ package com.example.Backend.Models;
 
 
 
-import java.util.List;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -38,10 +37,7 @@ public class UserModel {
     private String contraseña;
 
 
-    // Relentiza el proyecto al cargar muuchos datos
-   @OneToMany(mappedBy = "id_user") //Relacion bidireccional de uno a muchos para el mapeo de datos no se refleja en la tabla sql
-    private List<TareaModel> tareas;  //Lista de tareas de un usuario especifico
-    // private set<TareaModel> Tareas;  //Lista de tareas de un usuario especifico
+
 
     
     public UserModel(){}
@@ -87,13 +83,7 @@ public class UserModel {
         return this.contraseña;
     }
 
-    public void setTareas(List<TareaModel> Tareas){
-        this.tareas = Tareas;
-    }
-
-    public List<TareaModel> getTareas(){
-        return this.tareas;
-    }
+  
   
 }
 

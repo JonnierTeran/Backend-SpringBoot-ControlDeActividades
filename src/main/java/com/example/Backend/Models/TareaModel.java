@@ -32,7 +32,7 @@ public class TareaModel {
     private String estado;
 
     @ManyToOne // Relacion de muchos a uno
-    @JoinColumn(nullable = false) //  no nullo 
+    @JoinColumn(nullable = false, name="id_user") //  no nullo 
     private UserModel id_user;
      
     public TareaModel(){}
