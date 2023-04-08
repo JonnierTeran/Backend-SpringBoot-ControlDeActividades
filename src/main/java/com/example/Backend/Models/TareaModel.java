@@ -1,5 +1,7 @@
 package com.example.Backend.Models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +27,8 @@ public class TareaModel {
     @Column(nullable = false  , columnDefinition = "VARCHAR(250) ") //  no nullo , y tamaño maximo de 255 bits
     private String titulo;
 
-    @Column(nullable = false  , columnDefinition = "VARCHAR(250) ") //  no nullo , y tamaño maximo de 255 bits
+    @Column(nullable = false  , columnDefinition = "VARCHAR(250) " ) //  no nullo , y tamaño maximo de 255 bits
+    @JsonProperty("descripcion")
     private String descripcion;
 
     @Column(nullable = false  , columnDefinition = "VARCHAR(250) DEFAULT 'Pendiente' ") //  no nullo , y tamaño maximo de 255 bits
@@ -40,11 +43,11 @@ public class TareaModel {
     public void setId(Long id){
         this.id= id;
     }
-    public Long Getid(){
+    public Long getId(){
         return this.id;
     }
 
-    public void SetTitulo(String Titulo){
+    public void setTitulo(String Titulo){
         this.titulo = Titulo;
     }
 
@@ -56,7 +59,7 @@ public class TareaModel {
         this.descripcion = Descripcion;
     }
 
-    public String getDrescString(){
+    public String GetDrescString(){
         return this.descripcion;
     }
 

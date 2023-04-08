@@ -53,7 +53,7 @@ public class UsuarioController {
     //Eliminar Por id
     //Metodo http Delete y su ruta de acceso con variales por url
     @DeleteMapping(path ="/Delete/{id}") // Se define la variable
-    public String Registrat(@PathVariable("id") Long id){ //Parametrizacion de la variable por url
+    public String Delete(@PathVariable("id") Long id){ //Parametrizacion de la variable por url
         if(this.usuarioService.DeleteUser(id)){  // Ejecucuon y Validacion
             this.usuarioService.DeleteUser(id);
             return "Usuario Eliminado Exitosamente";

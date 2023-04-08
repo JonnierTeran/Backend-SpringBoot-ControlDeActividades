@@ -25,6 +25,7 @@
 # Para ejecutar una aplicación Spring Boot usando el comando mvnw.cmd en Windows, sigue estos pasos:
 
 - Abre una ventana de línea de comandos (cmd) en el directorio raíz de tu proyecto Spring Boot.
+- se debe tener definida la veriable de entorno JAVA_HOME apuntando al jdk
 - Ejecuta el comando mvnw.cmd spring-boot:run para compilar y ejecutar tu aplicación Spring Boot.
 - Espera a que el proceso de compilación y ejecución se complete. Esto puede tomar unos segundos o minutos, dependiendo del tamaño de tu proyecto y de las dependencias que estés usando.
 - Una vez que la aplicación se haya iniciado correctamente, podrás acceder a ella en tu navegador web visitando http://localhost:8080 (a menos que hayas configurado un puerto diferente en tu archivo "application.properties").
