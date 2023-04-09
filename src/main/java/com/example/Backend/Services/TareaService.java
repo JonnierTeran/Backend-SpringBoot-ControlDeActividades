@@ -1,40 +1,47 @@
 package com.example.Backend.Services;
 
 
-
+//Tipos de datos
 import java.util.List;
 import java.util.Optional;
 
+//Generados de instancias Automaticas
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
+//Declaracion del servicio
+import org.springframework.stereotype.Service;
+//Modelo de datos
 import com.example.Backend.Models.TareaModel;
+
+//Repositorio
 import com.example.Backend.Repositories.TareaRepository;
 
-@Service
+@Service //Notacion del servicio
 public class TareaService {
     
+    //Se genera una instancia del objeto
     @Autowired
     TareaRepository TareaRepository;
 
 
-    //Registrar una Tarea
+    //Registrar una Tarea por medio del repositorio
     public void AddTarea(TareaModel Tarea){
         this.TareaRepository.save(Tarea);
     }
 
-    //VerTodas Las Tareas
+    
+    //VerTodas Las Tareas  por medio del repositorio
     public List<TareaModel> obtenerTodasLasTareas() {
         return this.TareaRepository.findAll();
     }
 
-    //Ver Tarea por id
+    //Ver Tarea por id por medio del repositorio
     public Optional<TareaModel> GetTask(Long id) {
         return this.TareaRepository.findById(id);
     }
 
 
-      //Elimina usuario por id por medio del repositorio
+      //Elimina una tarea por id por medio del repositorio
       public Boolean DeleteTask(Long id){
         try { // Validaciones
             this.TareaRepository.deleteById(id);
@@ -46,15 +53,17 @@ public class TareaService {
     }
 
 
+    //Ver Tareas por usuario
     public List<TareaModel> TaskByUser(Long id){
         return this.TareaRepository.findByUserId(id);
     }
 
-
+    // Ver tareas pendientes por usuario
     public List<TareaModel> TaskByPendiente(Long id){
         return this.TareaRepository.findByTaskPendiente(id);
     }
 
+    //Ver tareas completadas por usuario
     public List<TareaModel> TaskByCompletada(Long id){
         return this.TareaRepository.findByTaskCompletada(id);
     }
