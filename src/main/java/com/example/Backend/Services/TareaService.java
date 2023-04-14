@@ -67,4 +67,21 @@ public class TareaService {
     public List<TareaModel> TaskByCompletada(Long id){
         return this.TareaRepository.findByTaskCompletada(id);
     }
+
+    //Ver Cantidad De tareas pendientes por usuario
+    public Long CantidadPendientes(Long id){
+        return this.TareaRepository.findByUserPendiente(id);
+    }
+
+    //Ver cantidad de tareas Completadas por usuario
+    public Long CantidadCompletada(Long id){
+        return this.TareaRepository.findByUserCompletada(id);
+    }
+
+    //Cantidad total de tareas Registradas
+    public Long Registros(Long Id){
+        return this.TareaRepository.findByUserTaks(Id);
+    }
+
+    
 }

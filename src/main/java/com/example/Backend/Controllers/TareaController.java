@@ -111,5 +111,27 @@ public class TareaController {
         }
     }
 
+
+    //Cantidad de Tareas Registradas por usuario
+    @GetMapping("/Count/{id}")
+    public ResponseEntity<Long> CantidadRegistros(@PathVariable Long id){
+        return new ResponseEntity<Long>(this.TareaServices.Registros(id), HttpStatus.OK);
+      }
+
+    
+    //Cantidad de Tareas Pendientes por usuario
+    @GetMapping("/Count/Pendientes/{id}")
+    public ResponseEntity<Long> CantidadPendiente(@PathVariable Long id){
+        return new ResponseEntity<Long>(this.TareaServices.CantidadPendientes(id), HttpStatus.OK);
+      }
+
+
+    
+    //Cantidad de Tareas Registradas por usuario
+    @GetMapping("/Count/Completed/{id}")
+    public ResponseEntity<Long> CantidadCompletadas(@PathVariable Long id){
+        return new ResponseEntity<Long>(this.TareaServices.CantidadCompletada(id), HttpStatus.OK);
+      }
+
     
 }

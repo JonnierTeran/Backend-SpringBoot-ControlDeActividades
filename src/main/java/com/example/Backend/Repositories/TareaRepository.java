@@ -39,5 +39,17 @@ public interface TareaRepository extends JpaRepository<TareaModel, Long> {
     @Query("SELECT t FROM TareaModel t WHERE t.id_user.id = :idUsuario AND t.estado = 'Completada' ")
     public abstract List<TareaModel> findByTaskCompletada(@Param("idUsuario") Long idUsuario);
 
+    //Consulta JPQL para conocer la cantidad de Tareas pendientes de cada usuario
+    @Query("SELECT COUNT(t) FROM TareaModel t WHERE t.id_user.id = :IdUser AND t.estado = 'Pendiente' ")
+    public abstract Long findByUserPendiente(@Param("IdUser") Long IdUser);
+    
+    //Consulta JPQL para conocer la cantidad de Tareas Completadas de cada usuario
+    @Query("SELECT COUNT(t) FROM TareaModel t WHERE t.id_user.id = :IdUser AND t.estado = 'Completada' ")
+    public abstract Long findByUserCompletada(@Param("IdUser") Long IdUser);
+
+    //Consulta JPQL para conocer la cantidad de Tareas Registradas por cada usuario
+    @Query("SELECT COUNT(t) FROM TareaModel t WHERE t.id_user.id = :IdUser ")
+    public abstract Long findByUserTaks(@Param("IdUser") Long IdUser);
+    
     
 }
