@@ -83,5 +83,15 @@ public class TareaService {
         return this.TareaRepository.findByUserTaks(Id);
     }
 
+    //Actualizar Estado de tarea a Completada 
+    public void ActualizarEstadoCompletada(Long id){
+        this.TareaRepository.ActualizarEstadoCompletado(id);
+    }
+
+    //Actualizar Estado de tarea a Pendiente 
+    public void ActualizarAPendiente(Long id){
+        this.TareaRepository.ActualizarEstadoPendiente(id);
+    }
+
     
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Backend.Models.Response;
 //Modelo y servicios de la entidad
 import com.example.Backend.Models.TareaModel;
 import com.example.Backend.Services.TareaService;
@@ -42,12 +43,12 @@ public class TareaController {
 
     //Registrar una tarea
     @PostMapping(path="/Registro") //metodo post y ruta de acceso al endpoint
-    public ResponseEntity<String> RegistrarTask(@RequestBody TareaModel Tarea){
+    public ResponseEntity<Response> RegistrarTask(@RequestBody TareaModel Tarea){
         if(Tarea != null){
             this.TareaServices.AddTarea(Tarea);
-            return new ResponseEntity<>("Proceso Exitoso", HttpStatus.OK);
+            return new ResponseEntity<>(new Response("Accion Realizada con Exito"), HttpStatus.OK);
         }else{
-            return ResponseEntity.badRequest().body("La tarea no cumple con los Requerimientos minimos");
+            return ResponseEntity.badRequest().body(new Response("La tarea no cumple con los Requerimientos minimos"));
         }
     }
 
@@ -66,11 +67,11 @@ public class TareaController {
     //Eliminar Por id registrado 
     //Metodo http Delete y su ruta de acceso con variales por url
     @DeleteMapping(path ="/Delete/{id}") // Se define la variable
-    public ResponseEntity<String> Registrat(@PathVariable("id") Long id){ //Parametrizacion de la variable por url
+    public ResponseEntity<Response> Registrat(@PathVariable("id") Long id){ //Parametrizacion de la variable por url
         if(this.TareaServices.DeleteTask(id)){  // Ejecucuon y Validacion
-            return new ResponseEntity<>("Tarea Eliminada con exito" , HttpStatus.OK);
+            return new ResponseEntity<>(new Response("Tarea Eliminada con exito"), HttpStatus.OK);
         }else{
-            return new ResponseEntity<>("Proceso incompleto, no se elimino una tarea" , HttpStatus.OK);
+            return new ResponseEntity<>(new Response("Proceso incompleto, no se elimino una tarea") , HttpStatus.OK);
     }
         
     }
@@ -132,6 +133,34 @@ public class TareaController {
     public ResponseEntity<Long> CantidadCompletadas(@PathVariable Long id){
         return new ResponseEntity<Long>(this.TareaServices.CantidadCompletada(id), HttpStatus.OK);
       }
+
+    //Actualizar estado a completo
+    @GetMapping("/ActualizarCompletada/{id}")
+    public ResponseEntity<Response> actualizarEstado(@PathVariable Long id) {
+        Optional<TareaModel> Task  = this.TareaServices.GetTask(id);
+        if(Task.isPresent()){
+            this.TareaServices.ActualizarEstadoCompletada(id);  
+            Response Res = new Response("Tarea Completada con exito");
+            return new ResponseEntity<Response>(Res, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(new Response("Error al Completar la tarea no existente"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    //Actualizar estado a Pendiente
+    @GetMapping("/ActualizarPendiente/{id}")
+    public ResponseEntity<Response> actualizarEstadoPendiente(@PathVariable Long id) {
+        Optional<TareaModel> Task  = this.TareaServices.GetTask(id);
+        if(Task.isPresent()){
+            this.TareaServices.ActualizarAPendiente(id);  
+            Response Res = new Response("Tarea Marcada como pendiente con exito");
+            return new ResponseEntity<Response>(Res, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(new Response("Error al Marcar Como pendiente la tarea no existente"), HttpStatus.BAD_REQUEST);
+        }
+    }
 
     
 }

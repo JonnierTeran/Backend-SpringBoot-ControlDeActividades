@@ -6,7 +6,7 @@ import java.util.List;
 
 //Clase Jpa Repositorio para metodos del crud
 import org.springframework.data.jpa.repository.JpaRepository;
-
+import org.springframework.data.jpa.repository.Modifying;
 //notacion para los query de jpql
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,6 +17,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.Backend.Models.TareaModel;
+
+import jakarta.transaction.Transactional;
 
 
 /**
@@ -51,5 +53,17 @@ public interface TareaRepository extends JpaRepository<TareaModel, Long> {
     @Query("SELECT COUNT(t) FROM TareaModel t WHERE t.id_user.id = :IdUser ")
     public abstract Long findByUserTaks(@Param("IdUser") Long IdUser);
     
+
+    //Actualizar el estado a Completada
+    @Modifying
+    @Transactional
+    @Query("UPDATE TareaModel t SET t.estado = 'Completada' WHERE t.id = :id")
+    public abstract void ActualizarEstadoCompletado(@Param("id") Long id);
     
+
+     //Actualizar el estado a Completada
+     @Modifying
+     @Transactional
+     @Query("UPDATE TareaModel t SET t.estado = 'Pendiente' WHERE t.id = :id")
+     public abstract void ActualizarEstadoPendiente(@Param("id") Long id);
 }

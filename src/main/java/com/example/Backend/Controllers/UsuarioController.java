@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Backend.Models.Response;
 //Import de la entidad de Datos
 import com.example.Backend.Models.UserModel;
-
 //import del serivico de users
 import com.example.Backend.Services.UsuarioService;
 
 //Notacion de Controlador y ruta de acceso
 @RestController
-@RequestMapping(path = "/Users")
+@RequestMapping(path = "/Users" )
 public class UsuarioController {
 
     //Instancia Automatica
@@ -39,18 +39,25 @@ public class UsuarioController {
     }
     
 
-    //Registrar / Actualizar Usuarios 
+    //Registrar  Usuarios  Unicos
     //Metodo http Post
     @PostMapping(path = "/Registrar")
-    public ResponseEntity<String> Registrat(@RequestBody UserModel User){  //Recibe un cuerpo por parametro
-        if(User != null){  //Validaciones 
-            this.usuarioService.RegUser(User);  //Metodo del servicio 
-            return new ResponseEntity<>("Accion ejecutada exitosamente" , HttpStatus.OK) ;
-        }else{
-            return new ResponseEntity<>("Proceso incompleto, no se cumplen los requisitos para la solicitud" , HttpStatus.OK);
+public ResponseEntity<Response> Registrat(@RequestBody UserModel User) {
+    if(User != null){
+        Optional<UserModel> userExistente = this.usuarioService.UserByEmail(User.getEmail());
+        if(userExistente.isPresent()) {
+            return  new ResponseEntity<>(new Response("Error, Ya existe un usuario asociado a esta direccion de Email"), HttpStatus.OK);
         }
-        
+        this.usuarioService.RegUser(User);
+        return  new ResponseEntity<>(new Response("Usuario Registrado Exitosamente"), HttpStatus.OK);
+    }else{
+        return  new ResponseEntity<>(new Response("Error al registrar"), HttpStatus.BAD_REQUEST);
     }
+}
+
+
+
+
 
     //Eliminar Por id
     //Metodo http Delete y su ruta de acceso con variales por url
