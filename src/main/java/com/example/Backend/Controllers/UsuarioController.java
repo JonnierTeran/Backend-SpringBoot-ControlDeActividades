@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,17 +43,17 @@ public class UsuarioController {
     //Registrar  Usuarios  Unicos
     //Metodo http Post
     @PostMapping(path = "/Registrar")
-public ResponseEntity<Response> Registrat(@RequestBody UserModel User) {
-    if(User != null){
-        Optional<UserModel> userExistente = this.usuarioService.UserByEmail(User.getEmail());
-        if(userExistente.isPresent()) {
-            return  new ResponseEntity<>(new Response("Error, Ya existe un usuario asociado a esta direccion de Email"), HttpStatus.OK);
+    public ResponseEntity<Response> Registrat(@RequestBody UserModel User) {
+        if(User != null){
+            Optional<UserModel> userExistente = this.usuarioService.UserByEmail(User.getEmail());
+            if(userExistente.isPresent()) {
+                return  new ResponseEntity<>(new Response("Error, Ya existe un usuario asociado a esta direccion de Email"), HttpStatus.OK);
+            }
+            this.usuarioService.RegUser(User);
+            return  new ResponseEntity<>(new Response("Usuario Registrado Exitosamente"), HttpStatus.OK);
+        }else{
+            return  new ResponseEntity<>(new Response("Error al registrar"), HttpStatus.BAD_REQUEST);
         }
-        this.usuarioService.RegUser(User);
-        return  new ResponseEntity<>(new Response("Usuario Registrado Exitosamente"), HttpStatus.OK);
-    }else{
-        return  new ResponseEntity<>(new Response("Error al registrar"), HttpStatus.BAD_REQUEST);
-    }
 }
 
 
@@ -78,5 +79,31 @@ public ResponseEntity<Response> Registrat(@RequestBody UserModel User) {
     @GetMapping(path="/UserEmail/{correo}") // Se define la variable
     public ResponseEntity<Optional<UserModel>> ObtenerPorEmail(@PathVariable("correo") String correo){ //Se recibe la variable por url
         return new ResponseEntity<>(this.usuarioService.UserByEmail(correo), HttpStatus.OK);
+    }
+
+    
+    //Actualizar Informacion Personal de un usuario
+    //Metodo http put para actualizar datos de un usuario
+    @PutMapping(path = "/Update")
+    public ResponseEntity<Response> ActualizarUser(@RequestBody UserModel User){
+        if(User.getNombres() != "" && User.getApellidos() != "" && User.getId() != null){
+            this.usuarioService.ActualizarUsuario(User);
+            return new ResponseEntity<>(new Response("Usuario Actualizado con exito"), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<Response>(new Response("Error Al Actualizar Usuario"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    //Actualizar Informacion Personal de un usuario
+    //Metodo http put para actualizar datos de un usuario
+    @PutMapping(path = "/Update/pass")
+    public ResponseEntity<Response> ActualizarUserPass(@RequestBody UserModel User){
+        if(User.getNombres() != "" && User.getApellidos() != "" && User.getId() != null && User.getContraseña() != null || User.getContraseña() != ""){
+            this.usuarioService.ActualizarPassword(User.getContraseña(), User.getId());
+            return new ResponseEntity<>(new Response("Contraseña Actualizada con exito"), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<Response>(new Response("Error Al Actualizar Contraseña"), HttpStatus.BAD_REQUEST);
+        }
     }
 }

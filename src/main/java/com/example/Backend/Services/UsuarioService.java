@@ -51,4 +51,14 @@ public class UsuarioService {
         return this.UserRepository.findByEmail(Correo); 
     }
 
+    //Actualizar informacion de un usuario
+    public void ActualizarUsuario(UserModel User){
+        this.UserRepository.ActualizarUser(User);
+    }
+
+    //Actualizar Contraeña de un usuario
+    public void ActualizarPassword(String Contraseña, Long Id){
+        this.UserRepository.ActualizarUserPass(Contraseña,Id);
+    }
+
 }
